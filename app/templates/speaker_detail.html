@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block title %}{{ speaker.full_name }} - FASSIE{% endblock %}
+
+{% block content %}
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="page-header-overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1 class="page-title">{{ speaker.full_name }}</h1>
+                    <p class="page-subtitle">{{ speaker.position }} | {{ speaker.organization }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Speaker Detail -->
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4" data-aos="fade-right">
+                    <div class="speaker-profile-card">
+                        <div class="speaker-profile-image">
+                            {% if speaker.photo %}
+                            <img src="{{ url_for('static', filename=speaker.photo) }}" alt="{{ speaker.full_name }}">
+                            {% else %}
+                            <img src="{{ url_for('static', filename='images/speaker-placeholder.jpg') }}" alt="{{ speaker.full_name }}">
+                            {% endif %}
+                        </div>
+                        <div class="speaker-profile-info">
+                            <h3>{{ speaker.full_name }}</h3>
+                            <p class="speaker-position">{{ speaker.position }}</p>
+                            <p class="speaker-organization">{{ speaker.organization }}</p>
+                            <p class="speaker-country"><i class="fas fa-map-marker-alt"></i> {{ speaker.country }}</p>
+                            <div class="speaker-social">
+                                {% if speaker.linkedin %}
+                                <a href="{{ speaker.linkedin }}" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                {% endif %}
+                                {% if speaker.twitter %}
+                                <a href="{{ speaker.twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-8" data-aos="fade-left">
+                    <div class="speaker-biography">
+                        <h2>Biographie</h2>
+                        <p>{{ speaker.biography }}</p>
+                    </div>
+                    
+                    {% if speaker.sessions %}
+                    <div class="speaker-sessions mt-5">
+                        <h2>Sessions</h2>
+                        <div class="sessions-list">
+                            {% for session in speaker.sessions %}
+                            <div class="session-preview">
+                                <h3>{{ session.title }}</h3>
+                                <p>{{ session.start_time.strftime('%d %B %Y - %H:%M') }} | {{ session.room }}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_css %}
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-green), #2d5a3f);
+            color: var(--primary-white);
+            padding: 8rem 0 4rem;
+            position: relative;
+        }
+        
+        .page-header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("{{ url_for('static', filename='images/pattern.png') }}");
+            background-repeat: repeat;
+            opacity: 0.1;
+        }
+        
+        .page-title {
+            font-size: 3rem;
+            color: var(--primary-white);
+            margin-bottom: 1rem;
+        }
+        
+        .page-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+        }
+        
+        .speaker-profile-card {
+            background: var(--primary-white);
+            border-radius: 10px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+        
+        .speaker-profile-image {
+            height: 350px;
+            overflow: hidden;
+        }
+        
+        .speaker-profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .speaker-profile-info {
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .speaker-profile-info h3 {
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+        
+        .speaker-position {
+            color: var(--primary-gold);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .speaker-organization {
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+        
+        .speaker-country {
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+        
+        .speaker-social {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .speaker-social a {
+            width: 40px;
+            height: 40px;
+            background: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-green);
+            transition: var(--transition);
+        }
+        
+        .speaker-social a:hover {
+            background: var(--primary-gold);
+            color: var(--primary-white);
+        }
+        
+        .speaker-biography,
+        .speaker-sessions {
+            background: var(--primary-white);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+        }
+        
+        .speaker-biography h2,
+        .speaker-sessions h2 {
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+        }
+        
+        .speaker-biography p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--dark-gray);
+        }
+        
+        .session-preview {
+            padding: 1rem;
+            background: var(--light-gray);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .session-preview h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-green);
+        }
+        
+        .session-preview p {
+            color: #6c757d;
+            margin: 0;
+        }
+    </style>
+{% endblock %}

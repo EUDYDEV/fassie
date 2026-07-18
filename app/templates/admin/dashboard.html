@@ -1,0 +1,174 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Tableau de bord - Administration FASSIE{% endblock %}
+
+{% block page_title %}Tableau de bord{% endblock %}
+
+{% block content %}
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-number">{{ total_participants }}</div>
+                    <div class="stat-label">Participants</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-microphone"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-number">{{ total_speakers }}</div>
+                    <div class="stat-label">Intervenants</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-number">{{ total_partners }}</div>
+                    <div class="stat-label">Partenaires</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-number">{{ total_news }}</div>
+                    <div class="stat-label">Actualités</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Registrations -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Inscriptions récentes</h5>
+                    <a href="{{ url_for('admin.participants') }}" class="btn btn-sm btn-primary">Voir tout</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Numéro</th>
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th>Type</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for registration in recent_registrations %}
+                                <tr>
+                                    <td><strong>{{ registration.registration_number }}</strong></td>
+                                    <td>{{ registration.first_name }} {{ registration.last_name }}</td>
+                                    <td>{{ registration.email }}</td>
+                                    <td><span class="badge bg-info">{{ registration.profile_type }}</span></td>
+                                    <td>{{ registration.created_at.strftime('%d/%m/%Y') }}</td>
+                                    <td>
+                                        <a href="{{ url_for('admin.confirm_participant', id=registration.id) }}" class="btn btn-sm btn-success" title="Confirmer">
+                                            <i class="fas fa-check"></i>
+                                        </a>
+                                        <a href="{{ url_for('admin.delete_participant', id=registration.id) }}" class="btn btn-sm btn-danger" data-confirm="Êtes-vous sûr de vouloir supprimer ce participant?" title="Supprimer">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center">Aucune inscription récente</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Actions rapides</h5>
+                </div>
+                <div class="card-body">
+                    <div class="quick-actions">
+                        <a href="{{ url_for('admin.new_speaker') }}" class="quick-action">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Ajouter un intervenant</span>
+                        </a>
+                        <a href="{{ url_for('admin.new_news') }}" class="quick-action">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>Publier une actualité</span>
+                        </a>
+                        <a href="{{ url_for('admin.new_partner') }}" class="quick-action">
+                            <i class="fas fa-handshake"></i>
+                            <span>Ajouter un partenaire</span>
+                        </a>
+                        <a href="{{ url_for('admin.export_participants') }}" class="quick-action">
+                            <i class="fas fa-download"></i>
+                            <span>Exporter les participants</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="card-title">Com à rebours</h5>
+                </div>
+                <div class="card-body">
+                    {% if active_edition %}
+                    <p class="mb-2"><strong>Édition active:</strong> FASSIE {{ active_edition.year }}</p>
+                    <p class="mb-2"><strong>Date de début:</strong> {{ active_edition.start_date.strftime('%d/%m/%Y') }}</p>
+                    <p class="mb-3"><strong>Thème:</strong> {{ active_edition.theme }}</p>
+                    <a href="{{ url_for('admin.edit_edition', id=active_edition.id) }}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-edit"></i> Modifier la date
+                    </a>
+                    {% else %}
+                    <p class="text-muted">Aucune édition active</p>
+                    <a href="{{ url_for('admin.new_edition') }}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-plus"></i> Créer une édition
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Unread Contacts -->
+    {% if unread_contacts > 0 %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card alert-warning">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-envelope-open-text fa-2x me-3"></i>
+                        <div>
+                            <h5 class="mb-1">Vous avez {{ unread_contacts }} message(s) non lu(s)</h5>
+                            <a href="{{ url_for('admin.contacts') }}" class="btn btn-sm btn-primary">Voir les messages</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

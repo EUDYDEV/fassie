@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+
+{% block title %}Partenaires - FASSIE{% endblock %}
+
+{% block content %}
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="page-header-overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1 class="page-title">Nos Partenaires</h1>
+                    <p class="page-subtitle">Ils nous soutiennent et nous font confiance</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners by Category -->
+    <section class="section">
+        <div class="container">
+            <!-- Platinum -->
+            <div class="row mb-5">
+                <div class="col-lg-12 text-center mb-4">
+                    <h2 class="category-title">Partenaires Platine</h2>
+                </div>
+                {% set platinum_partners = partners | selectattr('category', 'equalto', 'platinum') | list %}
+                {% for partner in platinum_partners %}
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up">
+                    <div class="partner-card-large">
+                        {% if partner.logo %}
+                        <img src="{{ url_for('static', filename=partner.logo) }}" alt="{{ partner.name }}">
+                        {% else %}
+                        <div class="partner-placeholder">{{ partner.name }}</div>
+                        {% endif %}
+                        <div class="partner-info">
+                            <h3>{{ partner.name }}</h3>
+                            <p>{{ partner.description }}</p>
+                            {% if partner.website %}
+                            <a href="{{ partner.website }}" target="_blank" class="btn btn-outline-primary">Visiter le site</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Gold -->
+            <div class="row mb-5">
+                <div class="col-lg-12 text-center mb-4">
+                    <h2 class="category-title">Partenaires Or</h2>
+                </div>
+                {% set gold_partners = partners | selectattr('category', 'equalto', 'gold') | list %}
+                {% for partner in gold_partners %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up">
+                    <div class="partner-card">
+                        {% if partner.logo %}
+                        <img src="{{ url_for('static', filename=partner.logo) }}" alt="{{ partner.name }}">
+                        {% else %}
+                        <div class="partner-placeholder">{{ partner.name }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Silver -->
+            <div class="row mb-5">
+                <div class="col-lg-12 text-center mb-4">
+                    <h2 class="category-title">Partenaires Argent</h2>
+                </div>
+                {% set silver_partners = partners | selectattr('category', 'equalto', 'silver') | list %}
+                {% for partner in silver_partners %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up">
+                    <div class="partner-card">
+                        {% if partner.logo %}
+                        <img src="{{ url_for('static', filename=partner.logo) }}" alt="{{ partner.name }}">
+                        {% else %}
+                        <div class="partner-placeholder">{{ partner.name }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Bronze -->
+            <div class="row mb-5">
+                <div class="col-lg-12 text-center mb-4">
+                    <h2 class="category-title">Partenaires Bronze</h2>
+                </div>
+                {% set bronze_partners = partners | selectattr('category', 'equalto', 'bronze') | list %}
+                {% for partner in bronze_partners %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up">
+                    <div class="partner-card">
+                        {% if partner.logo %}
+                        <img src="{{ url_for('static', filename=partner.logo) }}" alt="{{ partner.name }}">
+                        {% else %}
+                        <div class="partner-placeholder">{{ partner.name }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Media -->
+            <div class="row mb-5">
+                <div class="col-lg-12 text-center mb-4">
+                    <h2 class="category-title">Partenaires Médias</h2>
+                </div>
+                {% set media_partners = partners | selectattr('category', 'equalto', 'media') | list %}
+                {% for partner in media_partners %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up">
+                    <div class="partner-card">
+                        {% if partner.logo %}
+                        <img src="{{ url_for('static', filename=partner.logo) }}" alt="{{ partner.name }}">
+                        {% else %}
+                        <div class="partner-placeholder">{{ partner.name }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Become Partner CTA -->
+    <section class="section bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center" data-aos="fade-up">
+                    <h2>Devenir Partenaire</h2>
+                    <p class="mb-4">Rejoignez les partenaires du FASSIE et soutenez l'avenir de l'Afrique</p>
+                    <a href="{{ url_for('main.become_partner') }}" class="btn btn-primary btn-lg">En savoir plus</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_css %}
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-green), #2d5a3f);
+            color: var(--primary-white);
+            padding: 8rem 0 4rem;
+            position: relative;
+        }
+        
+        .page-header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("{{ url_for('static', filename='images/pattern.png') }}");
+            background-repeat: repeat;
+            opacity: 0.1;
+        }
+        
+        .page-title {
+            font-size: 3rem;
+            color: var(--primary-white);
+            margin-bottom: 1rem;
+        }
+        
+        .page-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+        }
+        
+        .category-title {
+            color: var(--primary-green);
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .category-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--primary-gold);
+        }
+        
+        .partner-card {
+            background: var(--primary-white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .partner-card:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .partner-card img {
+            max-height: 80px;
+            width: auto;
+        }
+        
+        .partner-placeholder {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+        
+        .partner-card-large {
+            background: var(--primary-white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .partner-card-large:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .partner-card-large img {
+            max-height: 100px;
+            width: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .partner-info h3 {
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+        
+        .partner-info p {
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+    </style>
+{% endblock %}

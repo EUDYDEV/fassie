@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+
+{% block title %}Édition {{ edition.year }} - FASSIE{% endblock %}
+
+{% block content %}
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="page-header-overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1 class="page-title">FASSIE {{ edition.year }}</h1>
+                    <p class="page-subtitle">{{ edition.theme }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Edition Info -->
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">À propos de l'édition</h2>
+                    <p class="section-subtitle">{{ edition.start_date.strftime('%d %B') }} - {{ edition.end_date.strftime('%d %B %Y') }} | {{ edition.venue }}, {{ edition.city }}, {{ edition.country }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12" data-aos="fade-up">
+                    <div class="edition-info">
+                        <p>{{ edition.description }}</p>
+                    </div>
+                </div>
+            </div>
+            {% if edition.banner_image %}
+            <div class="row mt-5">
+                <div class="col-lg-12 text-center" data-aos="fade-up">
+                    <img src="{{ url_for('static', filename=edition.banner_image) }}" alt="Bannière FASSIE {{ edition.year }}" class="img-fluid rounded shadow">
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Program -->
+    <section class="section bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">Programme</h2>
+                    <p class="section-subtitle">Découvrez le programme complet de l'édition {{ edition.year }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="program-timeline">
+                        {% for session in sessions %}
+                        <div class="session-item" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                            <div class="session-time">
+                                <div class="session-start">{{ session.start_time.strftime('%H:%M') }}</div>
+                                <div class="session-end">{{ session.end_time.strftime('%H:%M') }}</div>
+                            </div>
+                            <div class="session-content">
+                                <span class="session-type">{{ session.session_type }}</span>
+                                <h3>{{ session.title }}</h3>
+                                <p>{{ session.description }}</p>
+                                <div class="session-meta">
+                                    <span><i class="fas fa-map-marker-alt"></i> {{ session.room }}</span>
+                                    {% if session.moderator %}
+                                    <span><i class="fas fa-user-tie"></i> Modérateur: {{ session.moderator }}</span>
+                                    {% endif %}
+                                </div>
+                                {% if session.speakers %}
+                                <div class="session-speakers">
+                                    <strong>Intervenants:</strong>
+                                    {% for speaker in session.speakers %}
+                                    <span class="speaker-tag">{{ speaker.full_name }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="text-center">
+                            <p>Le programme sera bientôt disponible.</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center" data-aos="fade-up">
+                    <h2>Inscrivez-vous maintenant</h2>
+                    <p class="mb-4">Rejoignez-nous pour cette édition exceptionnelle du FASSIE</p>
+                    <a href="{{ url_for('main.register') }}" class="btn btn-primary btn-lg">S'inscrire</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_css %}
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-green), #2d5a3f);
+            color: var(--primary-white);
+            padding: 8rem 0 4rem;
+            position: relative;
+        }
+        
+        .page-header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("{{ url_for('static', filename='images/pattern.png') }}");
+            background-repeat: repeat;
+            opacity: 0.1;
+        }
+        
+        .page-title {
+            font-size: 3rem;
+            color: var(--primary-white);
+            margin-bottom: 1rem;
+        }
+        
+        .page-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+        }
+        
+        .edition-info {
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--dark-gray);
+        }
+        
+        .program-timeline {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .session-item {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: var(--primary-white);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        
+        .session-time {
+            text-align: center;
+            min-width: 100px;
+        }
+        
+        .session-start {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+        
+        .session-end {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+        
+        .session-content {
+            flex: 1;
+        }
+        
+        .session-type {
+            display: inline-block;
+            background: var(--primary-gold);
+            color: var(--primary-white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        
+        .session-content h3 {
+            margin-bottom: 0.75rem;
+        }
+        
+        .session-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            color: #6c757d;
+            font-size: 0.875rem;
+        }
+        
+        .session-meta i {
+            color: var(--primary-gold);
+            margin-right: 0.25rem;
+        }
+        
+        .session-speakers {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .speaker-tag {
+            display: inline-block;
+            background: var(--light-gray);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            margin-right: 0.5rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% block title %}Comités - FASSIE{% endblock %}
+
+{% block content %}
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="page-header-overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1 class="page-title">Nos Comités</h1>
+                    <p class="page-subtitle">Les équipes qui font le succès du FASSIE</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scientific Committee -->
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">Comité Scientifique</h2>
+                    <p class="section-subtitle">Experts et chercheurs</p>
+                </div>
+            </div>
+            <div class="row">
+                {% for member in scientific %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="committee-card">
+                        <div class="committee-image">
+                            {% if member.photo %}
+                            <img src="{{ url_for('static', filename=member.photo) }}" alt="{{ member.first_name }} {{ member.last_name }}">
+                            {% else %}
+                            <img src="{{ url_for('static', filename='images/member-placeholder.jpg') }}" alt="{{ member.first_name }} {{ member.last_name }}">
+                            {% endif %}
+                        </div>
+                        <div class="committee-info">
+                            <h3>{{ member.first_name }} {{ member.last_name }}</h3>
+                            <p class="committee-position">{{ member.position }}</p>
+                            <p class="committee-organization">{{ member.organization }}</p>
+                            {% if member.is_chair %}
+                            <span class="chair-badge">Président</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-lg-12 text-center">
+                    <p>Comité scientifique à venir.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Strategic Committee -->
+    <section class="section bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">Comité Stratégique</h2>
+                    <p class="section-subtitle">Décideurs et leaders</p>
+                </div>
+            </div>
+            <div class="row">
+                {% for member in strategic %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="committee-card">
+                        <div class="committee-image">
+                            {% if member.photo %}
+                            <img src="{{ url_for('static', filename=member.photo) }}" alt="{{ member.first_name }} {{ member.last_name }}">
+                            {% else %}
+                            <img src="{{ url_for('static', filename='images/member-placeholder.jpg') }}" alt="{{ member.first_name }} {{ member.last_name }}">
+                            {% endif %}
+                        </div>
+                        <div class="committee-info">
+                            <h3>{{ member.first_name }} {{ member.last_name }}</h3>
+                            <p class="committee-position">{{ member.position }}</p>
+                            <p class="committee-organization">{{ member.organization }}</p>
+                            {% if member.is_chair %}
+                            <span class="chair-badge">Président</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-lg-12 text-center">
+                    <p>Comité stratégique à venir.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Organization Committee -->
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">Comité d'Organisation</h2>
+                    <p class="section-subtitle">Équipe opérationnelle</p>
+                </div>
+            </div>
+            <div class="row">
+                {% for member in organization %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="committee-card">
+                        <div class="committee-image">
+                            {% if member.photo %}
+                            <img src="{{ url_for('static', filename=member.photo) }}" alt="{{ member.first_name }} {{ member.last_name }}">
+                            {% else %}
+                            <img src="{{ url_for('static', filename='images/member-placeholder.jpg') }}" alt="{{ member.first_name }} {{ member.last_name }}">
+                            {% endif %}
+                        </div>
+                        <div class="committee-info">
+                            <h3>{{ member.first_name }} {{ member.last_name }}</h3>
+                            <p class="committee-position">{{ member.position }}</p>
+                            <p class="committee-organization">{{ member.organization }}</p>
+                            {% if member.is_chair %}
+                            <span class="chair-badge">Président</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-lg-12 text-center">
+                    <p>Comité d'organisation à venir.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_css %}
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-green), #2d5a3f);
+            color: var(--primary-white);
+            padding: 8rem 0 4rem;
+            position: relative;
+        }
+        
+        .page-header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("{{ url_for('static', filename='images/pattern.png') }}");
+            background-repeat: repeat;
+            opacity: 0.1;
+        }
+        
+        .page-title {
+            font-size: 3rem;
+            color: var(--primary-white);
+            margin-bottom: 1rem;
+        }
+        
+        .page-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+        }
+        
+        .committee-card {
+            background: var(--primary-white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            height: 100%;
+        }
+        
+        .committee-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .committee-image {
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .committee-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .committee-card:hover .committee-image img {
+            transform: scale(1.1);
+        }
+        
+        .committee-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .committee-info h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-green);
+        }
+        
+        .committee-position {
+            color: var(--primary-gold);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 0.875rem;
+        }
+        
+        .committee-organization {
+            color: var(--dark-gray);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .chair-badge {
+            display: inline-block;
+            background: var(--primary-gold);
+            color: var(--primary-white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+    </style>
+{% endblock %}

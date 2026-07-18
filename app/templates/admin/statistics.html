@@ -1,0 +1,309 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Statistiques - Administration FASSIE{% endblock %}
+
+{% block page_title %}Statistiques{% endblock %}
+
+{% block content %}
+    <!-- Stat Cards -->
+    <div class="row">
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-number">{{ total_participants }}</div>
+                    <div class="stat-label">Participants</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-microphone"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-number">{{ total_speakers }}</div>
+                    <div class="stat-label">Intervenants</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-number">{{ total_partners }}</div>
+                    <div class="stat-label">Partenaires</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-number">{{ total_news }}</div>
+                    <div class="stat-label">Actualités</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Charts Row 1 -->
+    <div class="row mb-4">
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Participants par Type</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="participantsTypeChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Partenaires par Catégorie</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="partnersCategoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Charts Row 2 -->
+    <div class="row mb-4">
+        <div class="col-lg-8 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Évolution des Inscriptions (6 derniers mois)</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="registrationsChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Participants par Pays (Top 10)</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="countryChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Additional Stats -->
+    <div class="row">
+        <div class="col-lg-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Statistiques Récentes</h5>
+                </div>
+                <div class="card-body">
+                    <div class="stat-item">
+                        <span class="stat-label-small">Inscriptions cette semaine</span>
+                        <span class="stat-value">{{ weekly_registrations }}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label-small">Messages non lus</span>
+                        <span class="stat-value">{{ unread_messages }}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label-small">Téléchargements totaux</span>
+                        <span class="stat-value">{{ total_downloads }}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label-small">Publications</span>
+                        <span class="stat-value">{{ total_publications }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-8 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Répartition des Inscriptions par Mois</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        // Participants by Type - Doughnut Chart
+        const participantsTypeCtx = document.getElementById('participantsTypeChart').getContext('2d');
+        new Chart(participantsTypeCtx, {
+            type: 'doughnut',
+            data: {
+                labels: {{ participants_by_type.keys() | list | tojson }},
+                datasets: [{
+                    data: {{ participants_by_type.values() | list | tojson }},
+                    backgroundColor: [
+                        '#1a4d2e',
+                        '#d4af37',
+                        '#2d5a3f',
+                        '#e8c547',
+                        '#4a7c59',
+                        '#f0d78e'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+        
+        // Partners by Category - Pie Chart
+        const partnersCategoryCtx = document.getElementById('partnersCategoryChart').getContext('2d');
+        new Chart(partnersCategoryCtx, {
+            type: 'pie',
+            data: {
+                labels: {{ partners_by_category.keys() | list | tojson }},
+                datasets: [{
+                    data: {{ partners_by_category.values() | list | tojson }},
+                    backgroundColor: [
+                        '#1a4d2e',
+                        '#d4af37',
+                        '#2d5a3f',
+                        '#e8c547',
+                        '#4a7c59'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+        
+        // Registrations Evolution - Line Chart
+        const registrationsCtx = document.getElementById('registrationsChart').getContext('2d');
+        new Chart(registrationsCtx, {
+            type: 'line',
+            data: {
+                labels: {{ registrations_by_month.keys() | list | tojson }},
+                datasets: [{
+                    label: 'Inscriptions',
+                    data: {{ registrations_by_month.values() | list | tojson }},
+                    borderColor: '#1a4d2e',
+                    backgroundColor: 'rgba(26, 77, 46, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#d4af37',
+                    pointBorderColor: '#1a4d2e',
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        
+        // Participants by Country - Horizontal Bar Chart
+        const countryCtx = document.getElementById('countryChart').getContext('2d');
+        const countryLabels = {{ participants_by_country.keys() | list | tojson }};
+        const countryData = {{ participants_by_country.values() | list | tojson }};
+        const topCountries = countryLabels.slice(0, 10);
+        const topData = countryData.slice(0, 10);
+        
+        new Chart(countryCtx, {
+            type: 'bar',
+            data: {
+                labels: topCountries,
+                datasets: [{
+                    label: 'Participants',
+                    data: topData,
+                    backgroundColor: '#1a4d2e',
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        
+        // Monthly Distribution - Bar Chart
+        const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+        new Chart(monthlyCtx, {
+            type: 'bar',
+            data: {
+                labels: {{ registrations_by_month.keys() | list | tojson }},
+                datasets: [{
+                    label: 'Inscriptions',
+                    data: {{ registrations_by_month.values() | list | tojson }},
+                    backgroundColor: [
+                        '#1a4d2e',
+                        '#2d5a3f',
+                        '#4a7c59',
+                        '#d4af37',
+                        '#e8c547',
+                        '#f0d78e'
+                    ],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}

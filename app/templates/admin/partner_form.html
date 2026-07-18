@@ -1,0 +1,47 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ 'Modifier' if partner else 'Ajouter' }} Partenaire - Administration FASSIE{% endblock %}
+
+{% block page_title %}{{ 'Modifier' if partner else 'Ajouter' }} Partenaire{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data" data-validate>
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="form-group">
+                            {{ form.name.label(class="form-label") }}
+                            {{ form.name(class="form-control") }}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.category.label(class="form-label") }}
+                            {{ form.category(class="form-control") }}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.description.label(class="form-label") }}
+                            {{ form.description(class="form-control", rows=3) }}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.website.label(class="form-label") }}
+                            {{ form.website(class="form-control") }}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.logo.label(class="form-label") }}
+                            {{ form.logo(class="form-control") }}
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <a href="{{ url_for('admin.partners') }}" class="btn btn-secondary">Annuler</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Participants - Administration FASSIE{% endblock %}
+
+{% block page_title %}Participants{% endblock %}
+
+{% block content %}
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Liste des Participants</h5>
+                    <div class="header-actions">
+                        <a href="{{ url_for('admin.export_participants') }}" class="btn btn-success btn-sm">
+                            <i class="fas fa-download"></i> Exporter CSV
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form method="GET" class="mb-4">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <input type="text" name="search" class="form-control" placeholder="Rechercher..." value="{{ search }}">
+                            </div>
+                            <div class="col-lg-2">
+                                <button type="submit" class="btn btn-primary">Rechercher</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Numéro</th>
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th>Type</th>
+                                    <th>Statut</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for participant in participants.items %}
+                                <tr>
+                                    <td><strong>{{ participant.registration_number }}</strong></td>
+                                    <td>{{ participant.first_name }} {{ participant.last_name }}</td>
+                                    <td>{{ participant.email }}</td>
+                                    <td><span class="badge bg-info">{{ participant.profile_type }}</span></td>
+                                    <td>
+                                        {% if participant.is_confirmed %}
+                                        <span class="badge bg-success">Confirmé</span>
+                                        {% else %}
+                                        <span class="badge bg-warning">En attente</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ participant.created_at.strftime('%d/%m/%Y') }}</td>
+                                    <td>
+                                        <a href="{{ url_for('admin.confirm_participant', id=participant.id) }}" class="btn btn-sm btn-success" title="Confirmer">
+                                            <i class="fas fa-check"></i>
+                                        </a>
+                                        <a href="{{ url_for('admin.delete_participant', id=participant.id) }}" class="btn btn-sm btn-danger" data-confirm="Êtes-vous sûr?" title="Supprimer">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="7" class="text-center">Aucun participant</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    {% if participants.pages > 1 %}
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            {% if participants.has_prev %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('admin.participants', page=participants.prev_num, search=search) }}">Précédent</a>
+                            </li>
+                            {% endif %}
+                            {% for page_num in participants.iter_pages() %}
+                                {% if page_num %}
+                                    {% if page_num == participants.page %}
+                                    <li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
+                                    {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ url_for('admin.participants', page=page_num, search=search) }}">{{ page_num }}</a>
+                                    </li>
+                                    {% endif %}
+                                {% else %}
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if participants.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('admin.participants', page=participants.next_num, search=search) }}">Suivant</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

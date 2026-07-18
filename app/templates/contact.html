@@ -1,0 +1,338 @@
+{% extends "base.html" %}
+
+{% block title %}Contact - FASSIE{% endblock %}
+
+{% block content %}
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="page-header-overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1 class="page-title">Contact</h1>
+                    <p class="page-subtitle">Nous sommes à votre écoute</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <!-- Contact Form -->
+                <div class="col-lg-8 mb-4" data-aos="fade-right">
+                    <div class="contact-form-container">
+                        <div class="form-header">
+                            <h2>Envoyez-nous un message</h2>
+                            <p>Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais</p>
+                        </div>
+                        
+                        <form method="POST" data-validate>
+                            {{ form.hidden_tag() }}
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {{ form.name.label(class="form-label") }}
+                                        {{ form.name(class="form-control", placeholder="Votre nom complet") }}
+                                        {% if form.name.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.name.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {{ form.email.label(class="form-label") }}
+                                        {{ form.email(class="form-control", placeholder="votre@email.com") }}
+                                        {% if form.email.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.email.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                {{ form.phone.label(class="form-label") }}
+                                {{ form.phone(class="form-control", placeholder="+225 01 02 03 04 05") }}
+                            </div>
+                            
+                            <div class="form-group">
+                                {{ form.subject.label(class="form-label") }}
+                                {{ form.subject(class="form-control", placeholder="Sujet de votre message") }}
+                                {% if form.subject.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.subject.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                {{ form.message.label(class="form-label") }}
+                                {{ form.message(class="form-control", rows="6", placeholder="Votre message") }}
+                                {% if form.message.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.message.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-paper-plane"></i> Envoyer le message
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="col-lg-4" data-aos="fade-left">
+                    <div class="contact-info-container">
+                        <h3>Informations de contact</h3>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Adresse</h4>
+                                <p>Abidjan, Côte d'Ivoire</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Téléphone</h4>
+                                <p>+225 01 02 03 04 05</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Email</h4>
+                                <p>contact@fassie.org</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Heures d'ouverture</h4>
+                                <p>Lundi - Vendredi: 8h00 - 18h00</p>
+                            </div>
+                        </div>
+                        
+                        <div class="social-links-section">
+                            <h4>Suivez-nous</h4>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="section bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12" data-aos="fade-up">
+                    <div class="map-container">
+                        <h2>Nous trouver</h2>
+                        <div class="map-wrapper">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3980.7513635908!2d-4.008333!3d5.333333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNcKwMTknNTkuOSJOIDQwrDAwJzMwLjAiVw!5e0!3m2!1sfr!2sci!4v1234567890"
+                                width="100%" 
+                                height="450" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_css %}
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-green), #2d5a3f);
+            color: var(--primary-white);
+            padding: 8rem 0 4rem;
+            position: relative;
+        }
+        
+        .page-header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("{{ url_for('static', filename='images/pattern.png') }}");
+            background-repeat: repeat;
+            opacity: 0.1;
+        }
+        
+        .page-title {
+            font-size: 3rem;
+            color: var(--primary-white);
+            margin-bottom: 1rem;
+        }
+        
+        .page-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+        }
+        
+        .contact-form-container {
+            background: var(--primary-white);
+            border-radius: 10px;
+            box-shadow: var(--shadow-lg);
+            padding: 3rem;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .form-header h2 {
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-header p {
+            color: var(--dark-gray);
+        }
+        
+        .contact-info-container {
+            background: var(--primary-white);
+            border-radius: 10px;
+            box-shadow: var(--shadow-lg);
+            padding: 3rem;
+            height: 100%;
+        }
+        
+        .contact-info-container h3 {
+            color: var(--primary-green);
+            margin-bottom: 2rem;
+        }
+        
+        .contact-info-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-green), #2d5a3f);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .contact-icon i {
+            color: var(--primary-white);
+            font-size: 1.25rem;
+        }
+        
+        .contact-details h4 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            color: var(--primary-green);
+        }
+        
+        .contact-details p {
+            color: var(--dark-gray);
+            margin: 0;
+        }
+        
+        .social-links-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .social-links-section h4 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-green);
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background: var(--primary-gold);
+            color: var(--primary-white);
+        }
+        
+        .map-container {
+            text-align: center;
+        }
+        
+        .map-container h2 {
+            color: var(--primary-green);
+            margin-bottom: 2rem;
+        }
+        
+        .map-wrapper {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .invalid-feedback {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,23 @@
+# Informations sensibles
+.env
+.env.local
+
+# Dépendances
+node_modules/
+vendor/
+
+# Fichiers temporaires
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Base de données locale
+*.sqlite
+*.sqlite3
+
+# Fichiers envoyés par les utilisateurs
+uploads/

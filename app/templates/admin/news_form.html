@@ -1,0 +1,52 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ 'Modifier' if news else 'Ajouter' }} Actualité - Administration FASSIE{% endblock %}
+
+{% block page_title %}{{ 'Modifier' if news else 'Ajouter' }} Actualité{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data" data-validate>
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="form-group">
+                            {{ form.title.label(class="form-label") }}
+                            {{ form.title(class="form-control") }}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.category.label(class="form-label") }}
+                            {{ form.category(class="form-control") }}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.excerpt.label(class="form-label") }}
+                            {{ form.excerpt(class="form-control", rows=3) }}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.content.label(class="form-label") }}
+                            {{ form.content(class="form-control", rows=10) }}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.author.label(class="form-label") }}
+                            {{ form.author(class="form-control") }}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.featured_image.label(class="form-label") }}
+                            {{ form.featured_image(class="form-control") }}
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <a href="{{ url_for('admin.news') }}" class="btn btn-secondary">Annuler</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

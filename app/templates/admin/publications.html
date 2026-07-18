@@ -1,0 +1,57 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Publications - Administration FASSIE{% endblock %}
+
+{% block page_title %}Publications{% endblock %}
+
+{% block content %}
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Liste des Publications</h5>
+                    <a href="{{ url_for('admin.new_publication') }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus"></i> Ajouter
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Titre</th>
+                                    <th>Type</th>
+                                    <th>Téléchargements</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for publication in publications %}
+                                <tr>
+                                    <td>{{ publication.title }}</td>
+                                    <td><span class="badge bg-info">{{ publication.publication_type }}</span></td>
+                                    <td>{{ publication.download_count }}</td>
+                                    <td>{{ publication.publication_date.strftime('%d/%m/%Y') if publication.publication_date else '' }}</td>
+                                    <td>
+                                        <a href="{{ url_for('admin.edit_publication', id=publication.id) }}" class="btn btn-sm btn-primary" title="Modifier">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="{{ url_for('admin.delete_publication', id=publication.id) }}" class="btn btn-sm btn-danger" data-confirm="Êtes-vous sûr?" title="Supprimer">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center">Aucune publication</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

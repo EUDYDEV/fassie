@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Connexion - Administration FASSIE{% endblock %}
+
+{% block content %}
+    <div class="auth-container">
+        <div class="auth-wrapper">
+            <div class="auth-logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="FASSIE Logo">
+            </div>
+            
+            <div class="auth-card" data-aos="fade-up">
+                <div class="auth-header">
+                    <h2>Connexion Administration</h2>
+                    <p>Accédez au tableau de bord FASSIE</p>
+                </div>
+                
+                <form method="POST" data-validate>
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="form-group">
+                        {{ form.username.label(class="form-label") }}
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            {{ form.username(class="form-control", placeholder="Nom d'utilisateur") }}
+                        </div>
+                        {% if form.username.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.username.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.password.label(class="form-label") }}
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            {{ form.password(class="form-control", placeholder="Mot de passe") }}
+                        </div>
+                        {% if form.password.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.password.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-check">
+                            {{ form.remember_me(class="form-check-input") }}
+                            {{ form.remember_me.label(class="form-check-label") }}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">
+                            Se connecter
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="auth-footer">
+                    <p><a href="{{ url_for('main.index') }}">← Retour au site</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-green), #2d5a3f);
+            padding: 2rem 1rem;
+        }
+        
+        .auth-wrapper {
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .auth-logo img {
+            height: 80px;
+            background: var(--primary-white);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+        
+        .auth-card {
+            background: var(--primary-white);
+            border-radius: 10px;
+            box-shadow: var(--shadow-lg);
+            padding: 3rem;
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .auth-header h2 {
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+        
+        .auth-header p {
+            color: var(--dark-gray);
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .input-group-text {
+            background: var(--light-gray);
+            border: 1px solid var(--border-color);
+            border-right: none;
+            padding: 0.75rem 1rem;
+            color: var(--dark-gray);
+        }
+        
+        .input-group .form-control {
+            border-left: none;
+        }
+        
+        .input-group .form-control:focus {
+            border-left: none;
+        }
+        
+        .auth-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .auth-footer a {
+            color: var(--primary-green);
+        }
+        
+        .auth-footer a:hover {
+            color: var(--primary-gold);
+        }
+        
+        .invalid-feedback {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+    </style>
+{% endblock %}
+
+{% block extra_js %}
+    <style>
+        /* Hide header and footer on login page */
+        .header, .footer, .back-to-top {
+            display: none !important;
+        }
+    </style>
+{% endblock %}
